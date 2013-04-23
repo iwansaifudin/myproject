@@ -1,0 +1,52 @@
+<script language="javascript" type="text/javascript">
+/* Visit http://www.yaldex.com/ for full source code
+and get more free JavaScript, CSS and DHTML scripts! */
+ie = (document.all) ? 1 : 0;
+n = !ie;
+Comment = false;
+Email = false;
+PostalCode = false;
+
+
+function Go(){
+	document.onkeypress = keyDown;
+	if (n) {
+		document.captureEvents(Event.KEYPRESS);
+	}
+}
+
+function keyDown(e) {
+	var keycode;
+	if (window.event) keycode = window.event.keyCode;
+	else if (e) keycode = e.which;
+	else return true;
+	
+	if (Comment) {
+		if ((keycode > 32 && keycode < 48) || (keycode > 57 && keycode < 65) || (keycode > 90 && keycode < 97)) {
+			return false;
+		}
+	} else if (Email) {
+		if (keycode==34 || keycode==39) {
+			return false;
+		}
+	} else if (PostalCode) {
+		if (keycode < 45 || keycode > 57) {
+			return false;
+		}
+	}
+	//else return true;
+}
+</script>
+
+<form onSubmit="return false;">
+<b>This field will not accept special characters: (like !@#$%^&* etc)<br></b>
+<textarea rows=2 cols=20 name=comments onKeyPress="Comment = true; Email = false; PostalCode = false; Go();"></textarea>
+<br>
+<br>
+This field will not accept double or single quotes:<br>
+<input type=text name=txtEmail onKeypress="Comment = false; Email = true; PostalCode = false; Go();">
+<br>
+<br>
+This field will only accept numbers:<br>
+<input type=text name=txtPostalCode onKeypress="Comment = false; Email = false; PostalCode = true; Go();">
+</form>
